@@ -1,19 +1,18 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:neuroaware/screens/signuppage.dart';
+import 'package:neuroaware/screens/loginpage.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _LoginState extends State<Login> {
+class _SignUpState extends State<SignUp> {
   bool visible = true;
   @override
-  
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
@@ -50,25 +49,30 @@ class _LoginState extends State<Login> {
                         )),
                   ),
                 ),
-                SizedBox(height: 18),
-                Text(
-                  "Welcome Back",
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromRGBO(40, 65, 98, 1)),
-                ),
-                Text("Login",
+                SizedBox(height: 15),
+                Text("Sign Up",
                     style: TextStyle(
                         fontSize: 35,
                         fontWeight: FontWeight.w600,
                         color: Color.fromRGBO(40, 65, 98, 1))),
-                SizedBox(height: 20),
+                SizedBox(height: 15),
                 Image.asset(
                   'assets/images/lifesavers-bust.png',
                   scale: 2,
                 ),
                 SizedBox(height: 20),
+                TextField(
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      hintText: "Full Name",
+                      hintStyle:
+                          TextStyle(color: Color.fromRGBO(40, 65, 98, 1)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(40, 65, 98, 1), width: 2))),
+                ),
+                SizedBox(height: 15),
                 TextField(
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(horizontal: 20),
@@ -80,30 +84,27 @@ class _LoginState extends State<Login> {
                           borderSide: BorderSide(
                               color: Color.fromRGBO(40, 65, 98, 1), width: 2))),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 15),
                 TextField(
                   obscureText: visible,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                    hintText: "Password",
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          visible = !visible;
-                        });
-                      },
-                      icon: Icon(
-                          visible ? Icons.visibility : Icons.visibility_off),
-                    ),
-                    hintStyle: TextStyle(color: Color.fromRGBO(40, 65, 98, 1)),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      borderSide: BorderSide(
-                        color: Color.fromRGBO(40, 65, 98, 1),
-                        width: 2,
-                      ),
-                    ),
-                  ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
+                      hintText: "Password",
+                      suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              visible = !visible;
+                            });
+                          },
+                          icon: Icon(visible
+                              ? Icons.visibility
+                              : Icons.visibility_off)),
+                      hintStyle:
+                          TextStyle(color: Color.fromRGBO(40, 65, 98, 1)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(
+                              color: Color.fromRGBO(40, 65, 98, 1), width: 2))),
                 ),
                 SizedBox(height: 5),
                 Align(
@@ -127,7 +128,7 @@ class _LoginState extends State<Login> {
                               borderRadius: BorderRadius.circular(10)),
                           backgroundColor: Color.fromRGBO(40, 65, 98, 1)),
                       child: Text(
-                        "Login",
+                        "Sign Up",
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       )),
                 ),
@@ -147,10 +148,10 @@ class _LoginState extends State<Login> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignUp()));
+                                  builder: ((context) => Login())));
                         },
                         child: Text(
-                          "Sign Up",
+                          "Login",
                           style: TextStyle(
                               color: Color.fromRGBO(40, 65, 98, 1),
                               fontWeight: FontWeight.w500,
