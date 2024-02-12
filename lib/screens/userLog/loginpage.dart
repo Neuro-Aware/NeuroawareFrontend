@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:neuroaware/screens/signuppage.dart';
+import 'package:neuroaware/screens/userLog/signuppage.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});

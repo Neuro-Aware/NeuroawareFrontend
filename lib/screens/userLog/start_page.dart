@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:neuroaware/screens/loginpage.dart';
-import 'package:neuroaware/screens/signuppage.dart';
+import 'package:neuroaware/screens/userLog/loginpage.dart';
+import 'package:neuroaware/screens/userLog/signuppage.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
