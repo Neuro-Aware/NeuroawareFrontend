@@ -52,8 +52,8 @@ class _BottomNavState extends State<BottomNav> {
                 text: 'Diagnosis',
               ),
               GButton(
-                icon: LineIcons.running,
-                text: 'Exercise',
+                icon: LineIcons.fire,
+                text: 'Analytics',
               ),
               GButton(
                 icon: LineIcons.user,
