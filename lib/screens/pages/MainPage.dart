@@ -24,7 +24,6 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       bottomNavigationBar: BottomNav(
         selectedIndex: _selectedIndex,
         onTap: (value) => setState(() => _selectedIndex = value),

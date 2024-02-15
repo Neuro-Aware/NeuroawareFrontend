@@ -18,7 +18,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(fontFamily: 'Raleway'),
+        theme: ThemeData(fontFamily: 'Raleway', ),
         debugShowCheckedModeBanner: false,
         home: login ? MainPage() : StartScreen());
   }
