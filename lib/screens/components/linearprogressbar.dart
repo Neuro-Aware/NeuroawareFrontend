@@ -36,7 +36,7 @@ class LinearProgressBar extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10, bottom: 2),
             child: Text('${progress.toInt()}%',
                 style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 13,
                     color: labelColor,
                     fontWeight: FontWeight.bold)),
           ),
