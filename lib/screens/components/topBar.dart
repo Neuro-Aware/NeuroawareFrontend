@@ -16,29 +16,36 @@ class TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(title,
-            style: TextStyle(
-              fontSize: 23,
-              fontWeight: FontWeight.w500,
-            )),
-        greeting_view
-            ? Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(greeting,
-                      style:
-                          TextStyle(fontSize: 11, fontWeight: FontWeight.w600)),
-                  Text(
-                    name,
-                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 30, 12, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(title,
+                style: TextStyle(
+                  fontSize: 23,
+                  fontWeight: FontWeight.w500,
+                )),
+            greeting_view
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(greeting,
+                          style: TextStyle(
+                              fontSize: 11, fontWeight: FontWeight.w600)),
+                      Text(
+                        name,
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500),
+                      )
+                    ],
                   )
-                ],
-              )
-            : Text('')
-      ],
+                : Text('')
+          ],
+        ),
+      ),
     );
   }
 }
