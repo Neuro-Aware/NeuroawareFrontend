@@ -37,21 +37,18 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 30, 12, 0),
-          child: TopBar(
-            title: 'Home',
-            greeting_view: true,
-            greeting: 'Good Morning',
-            name: 'John Doe',
-          ),
+        preferredSize: Size.fromHeight(50),
+        child: TopBar(
+          title: 'Home',
+          greeting_view: true,
+          greeting: 'Good Morning',
+          name: 'John Doe',
         ),
       ),
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+          padding: const EdgeInsets.fromLTRB(12, 0, 12, 60),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -92,7 +89,7 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
                     ],
                   ),
                   SizedBox(height: 10),
-                  popularWoekouts(context),
+                  popularWorkouts(context),
                   SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerLeft,
@@ -115,69 +112,64 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
     );
   }
 
-  SizedBox todayPlans() {
-    return SizedBox(
-      height: 300,
-      child: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return Stack(children: [
-            Container(
-                margin: EdgeInsets.only(bottom: 10),
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 120,
-                      height: 100,
+  Column todayPlans() {
+    return Column(
+        children: List.generate(
+            3,
+            (index) => Stack(children: [
+                  Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: NetworkImage(
-                              'https://images.unsplash.com/photo-1616803689943-5601631c7fec?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
-                          fit: BoxFit.cover,
-                        ),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                    SizedBox(width: 10),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Push Up',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 120,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                    'https://images.unsplash.com/photo-1616803689943-5601631c7fec?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'),
+                                fit: BoxFit.cover,
+                              ),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                           ),
-                        ),
-                        Text(
-                          '100 push up a day',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
+                          SizedBox(width: 10),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Push Up',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                '100 push up a day',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              LinearProgressBar(
+                                progress: 50,
+                                color: Color.fromARGB(255, 90, 224, 95),
+                                labelColor: Colors.black,
+                                duration: 2,
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        LinearProgressBar(
-                          progress: 50,
-                          color: Colors.green,
-                          labelColor: Colors.black,
-                          duration: 2,
-                        ),
-                      ],
-                    ),
-                  ],
-                )),
-            difficultyLabel(),
-          ]);
-        },
-      ),
-    );
+                        ],
+                      )),
+                  difficultyLabel(),
+                ])));
   }
 
   Align difficultyLabel() {
@@ -186,9 +178,9 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
       child: Padding(
         padding: EdgeInsets.only(right: 10),
         child: Container(
-          padding: EdgeInsets.all(2),
+          padding: EdgeInsets.only(bottom: 5, left: 5, right: 5),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: Colors.black,
             borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(10),
                 bottomRight: Radius.circular(10)),
@@ -196,7 +188,7 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
           child: Text(
             'Intermidiate',
             style: TextStyle(
-              color: Colors.black,
+              color: Colors.white,
               fontSize: 13,
               fontWeight: FontWeight.w500,
             ),
@@ -206,7 +198,7 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
     );
   }
 
-  SizedBox popularWoekouts(BuildContext context) {
+  SizedBox popularWorkouts(BuildContext context) {
     return SizedBox(
       height: MediaQuery.of(context).size.height * 0.25,
       child: ListView.builder(
