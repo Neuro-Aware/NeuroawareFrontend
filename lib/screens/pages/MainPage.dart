@@ -24,6 +24,7 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       bottomNavigationBar: BottomNav(
         selectedIndex: _selectedIndex,
         onTap: (value) => setState(() => _selectedIndex = value),
