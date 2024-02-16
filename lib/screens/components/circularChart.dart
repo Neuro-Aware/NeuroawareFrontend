@@ -13,8 +13,20 @@ class CircularChart extends StatefulWidget {
       this.startOffset = -90.0,
       this.endOffset = 90.0,
       this.color = Colors.red,
-      this.duration = 1})
+      this.duration = 1,
+      this.width = 200,
+      this.height = 200,
+      this.fontSize = 12,
+      this.background = true,
+      this.backgroundcolor = Colors.black,
+      this.clockwise = true})
       : super(key: key);
+  final bool clockwise;
+  final bool background;
+  final Color backgroundcolor;
+  final double fontSize;
+  final double width;
+  final double height;
   final double perc;
   final bool showTitle;
   final bool animateTitle;
@@ -36,24 +48,25 @@ class _CircularChartState extends State<CircularChart> {
     return Stack(
       alignment: Alignment.center,
       children: [
-        SizedBox(
-          height: 200,
-          width: 200,
-          //create a tween animation for circular percent indicator and rotate it 120 degree on z axis
-          child: Transform(
-            alignment: Alignment.center,
-            transform: Matrix4.identity()
-              // ..setEntry(3, 2, 0.001)
-              ..rotateZ(sOffset),
-            child: CircularProgressIndicator(
-              value: max,
-              backgroundColor: Colors.transparent,
-              color: Colors.black,
-              strokeWidth: 10,
-              strokeCap: StrokeCap.round,
+        if (widget.background)
+          SizedBox(
+            height: widget.height,
+            width: widget.width,
+            //create a tween animation for circular percent indicator and rotate it 120 degree on z axis
+            child: Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.identity()
+                // ..setEntry(3, 2, 0.001)
+                ..rotateZ(sOffset),
+              child: CircularProgressIndicator(
+                value: max,
+                backgroundColor: Colors.transparent,
+                color: widget.backgroundcolor,
+                strokeWidth: 9,
+                strokeCap: StrokeCap.round,
+              ),
             ),
           ),
-        ),
         Ink(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
@@ -67,16 +80,17 @@ class _CircularChartState extends State<CircularChart> {
             // ],
           ),
           child: SizedBox(
-            height: 200,
-            width: 200,
+            height: widget.height,
+            width: widget.width,
             //create a tween animation for circular percent indicator and rotate it 120 degree on z axis
             child: TweenAnimationBuilder(
-              tween: Tween(begin: 0.0, end: angle),
+              tween: widget.clockwise
+                  ? Tween(begin: 0.0, end: angle)
+                  : Tween(begin: angle, end: 0.0),
               duration: Duration(seconds: widget.duration),
               builder: (context, value, child) {
                 //rotate it 120 degree on z axis
                 return Transform(
-                  alignment: Alignment.center,
                   transform: Matrix4.identity()
                     // ..setEntry(3, 2, 0.001)
                     ..rotateZ(sOffset),
@@ -107,7 +121,7 @@ class _CircularChartState extends State<CircularChart> {
             return Text(
               '${value.toInt()}%',
               style: TextStyle(
-                fontSize: 40,
+                fontSize: widget.fontSize,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'Roboto',
               ),
@@ -117,7 +131,7 @@ class _CircularChartState extends State<CircularChart> {
       return Text(
         '${widget.perc.toInt()}%',
         style: TextStyle(
-          fontSize: 40,
+          fontSize: widget.fontSize,
           fontWeight: FontWeight.w500,
           fontFamily: 'Roboto',
         ),
