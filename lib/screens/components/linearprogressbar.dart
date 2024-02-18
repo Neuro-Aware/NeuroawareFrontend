@@ -7,8 +7,9 @@ class LinearProgressBar extends StatelessWidget {
     required this.color,
     required this.labelColor,
     required this.duration,
+    this.showLabel = true,
   });
-
+  final bool showLabel;
   final double progress;
   final Color color;
   final Color labelColor;
@@ -34,11 +35,13 @@ class LinearProgressBar extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10, bottom: 2),
-            child: Text('${progress.toInt()}%',
-                style: TextStyle(
-                    fontSize: 13,
-                    color: labelColor,
-                    fontWeight: FontWeight.bold)),
+            child: showLabel
+                ? Text('${progress.toInt()}%',
+                    style: TextStyle(
+                        fontSize: 13,
+                        color: labelColor,
+                        fontWeight: FontWeight.bold))
+                : Container(),
           ),
         ]);
       },
