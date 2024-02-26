@@ -1,7 +1,11 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:neuroaware/screens/userLog/loginpage.dart';
+import 'package:neuroaware/controller/registration.controller.dart';
+import 'package:neuroaware/screens/auth/loginpage.dart';
+import 'package:neuroaware/widgets/input_fields.dart';
+
+import '../../widgets/submit_button.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -11,6 +15,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  RegistrationController registerationController = RegistrationController();
   bool visible = true;
   @override
   Widget build(BuildContext context) {
@@ -58,54 +63,23 @@ class _SignUpState extends State<SignUp> {
                 SizedBox(height: 15),
                 Image.asset(
                   'assets/images/lifesavers-bust.png',
-                  scale: 2,
+                  height: MediaQuery.of(context).size.height * 0.3,
                 ),
                 SizedBox(height: 20),
-                TextField(
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      hintText: "Full Name",
-                      hintStyle:
-                          TextStyle(color: Color.fromRGBO(40, 65, 98, 1)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(40, 65, 98, 1), width: 2))),
-                ),
-                SizedBox(height: 15),
-                TextField(
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      hintText: "Email",
-                      hintStyle:
-                          TextStyle(color: Color.fromRGBO(40, 65, 98, 1)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(40, 65, 98, 1), width: 2))),
-                ),
-                SizedBox(height: 15),
-                TextField(
-                  obscureText: visible,
-                  decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(horizontal: 20),
-                      hintText: "Password",
-                      suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              visible = !visible;
-                            });
-                          },
-                          icon: Icon(visible
-                              ? Icons.visibility
-                              : Icons.visibility_off)),
-                      hintStyle:
-                          TextStyle(color: Color.fromRGBO(40, 65, 98, 1)),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: BorderSide(
-                              color: Color.fromRGBO(40, 65, 98, 1), width: 2))),
-                ),
+                InputTextFieldWidget(
+                    registerationController.usernameController, "Username"),
+                SizedBox(height: 10),
+                InputTextFieldWidget(
+                    registerationController.emailController, "Email"),
+                SizedBox(height: 10),
+                InputTextFieldWidget(
+                    registerationController.passwordController, 'Password',
+                    passwordField: true),
+                SizedBox(height: 10),
+                InputTextFieldWidget(
+                    registerationController.confirmPasswordController,
+                    'Confirm Password',
+                    passwordField: true),
                 SizedBox(height: 5),
                 Align(
                   alignment: AlignmentDirectional.bottomEnd,
@@ -117,22 +91,11 @@ class _SignUpState extends State<SignUp> {
                         fontSize: 15),
                   ),
                 ),
-                SizedBox(height: 15),
-                SizedBox(
-                  width: double.infinity,
-                  height: 45,
-                  child: OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10)),
-                          backgroundColor: Color.fromRGBO(40, 65, 98, 1)),
-                      child: Text(
-                        "Sign Up",
-                        style: TextStyle(color: Colors.white, fontSize: 15),
-                      )),
+                SizedBox(height: 10),
+                SubmitButton(
+                  onPressed: () => registerationController.registerUser(),
+                  title: 'Sign Up',
                 ),
-                SizedBox(height: 0),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -165,5 +128,16 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  //create handelSignUp method
+  void handleSignUp() async {
+    RegistrationController registrationController = RegistrationController();
+    var result = await registrationController.registerUser();
+    if (result != null) {
+      print("User registered successfully");
+    } else {
+      print("User registration failed");
+    }
   }
 }
