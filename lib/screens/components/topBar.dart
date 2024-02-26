@@ -17,6 +17,7 @@ class TopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.of(context).size.height * 0.1,
       color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(12, 30, 12, 0),
