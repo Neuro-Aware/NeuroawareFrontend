@@ -1,28 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:neuroaware/screens/pages/MainPage.dart';
-import 'package:neuroaware/screens/userLog/start_page.dart';
+import 'package:neuroaware/app.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  bool login = true;
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        theme: ThemeData(
-          fontFamily: 'Raleway',
-          scaffoldBackgroundColor: Color.fromARGB(255, 237, 237, 237),
-        ),
-        debugShowCheckedModeBanner: false,
-        home: login ? MainPage() : StartScreen());
-  }
+  runApp(const App());
 }
