@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neuroaware/screens/auth/loginpage.dart';
 import 'package:neuroaware/screens/pages/MainPage.dart';
 import 'package:neuroaware/screens/auth/start_page.dart';
 
@@ -22,6 +23,9 @@ class _AppState extends State<App> {
       home: login ? MainPage() : StartScreen(),
       // initialRoute: '/',
       // onGenerateRoute: RouteGenerator.generateRoute,
+      routes: {
+        '/login': (context) =>  Login(),
+      },
     );
   }
 }
