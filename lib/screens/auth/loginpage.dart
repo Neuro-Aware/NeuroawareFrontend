@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:neuroaware/screens/auth/signuppage.dart';
+import 'package:neuroaware/screens/pages/MainPage.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -13,7 +14,6 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   bool visible = true;
   @override
-  
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(
@@ -121,7 +121,12 @@ class _LoginState extends State<Login> {
                   width: double.infinity,
                   height: 45,
                   child: OutlinedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => MainPage()));
+                      },
                       style: OutlinedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10)),

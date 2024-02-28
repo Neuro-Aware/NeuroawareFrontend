@@ -17,18 +17,16 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   RegistrationController registerationController = RegistrationController();
   bool visible = true;
+
+  @override
+  void dispose() {
+    registerationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   title: Text(
-      //     "Login",
-      //     style: TextStyle(
-      //         fontWeight: FontWeight.w400,
-      //         color: Color.fromRGBO(40, 65, 98, 1)),
-      //   ),
-      // ),
       body: Padding(
         padding: const EdgeInsets.only(top: 30, left: 15, right: 15),
         child: SingleChildScrollView(
@@ -93,7 +91,7 @@ class _SignUpState extends State<SignUp> {
                 ),
                 SizedBox(height: 10),
                 SubmitButton(
-                  onPressed: () => registerationController.registerUser(),
+                  onPressed: () => handleRegistration(),
                   title: 'Sign Up',
                 ),
                 Row(
@@ -130,14 +128,37 @@ class _SignUpState extends State<SignUp> {
     );
   }
 
-  //create handelSignUp method
-  void handleSignUp() async {
-    RegistrationController registrationController = RegistrationController();
-    var result = await registrationController.registerUser();
-    if (result != null) {
-      print("User registered successfully");
-    } else {
-      print("User registration failed");
+  //create handelSubmit function to navigate to login page after successful registration
+  void handleSubmit() {
+    Navigator.push(context, MaterialPageRoute(builder: ((context) => Login())));
+  }
+
+  // handleregisration method
+  void handleRegistration() async {
+    var response = await registerationController.registerUser();
+    if (response[0] == 201) {
+      handleSubmit();
     }
+    if (response[0] == 400) {
+      errorDialog(response[1]);
+    }
+  }
+
+  errorDialog(String message) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(message),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text('Close'))
+            ],
+          );
+        });
   }
 }

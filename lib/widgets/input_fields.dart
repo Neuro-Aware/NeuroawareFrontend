@@ -16,7 +16,7 @@ class _InputTextFieldWidgetState extends State<InputTextFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: widget.textEditingController,
       obscureText: widget.passwordField ? visible : false,
       decoration: InputDecoration(

@@ -4,9 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:lottie/lottie.dart';
-import 'package:neuroaware/screens/components/barChart.dart';
-import 'package:neuroaware/screens/components/circularChart.dart';
-import 'package:neuroaware/screens/components/linearprogressbar.dart';
+import 'package:neuroaware/components/barChart.dart';
+import 'package:neuroaware/components/circularChart.dart';
+import 'package:neuroaware/components/linearprogressbar.dart';
 
 class AnalyticsPage extends StatefulWidget {
   const AnalyticsPage({super.key});

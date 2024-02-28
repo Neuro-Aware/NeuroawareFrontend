@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../components/linearprogressbar.dart';
-import '../components/topBar.dart';
+import '../../components/linearprogressbar.dart';
+import '../../components/topBar.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({super.key});

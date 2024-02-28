@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neuroaware/screens/components/bottomNav.dart';
+import 'package:neuroaware/components/bottomNav.dart';
 import 'package:neuroaware/screens/pages/AnalyticsPage.dart';
 import 'package:neuroaware/screens/pages/HomePage.dart';
 import 'package:neuroaware/screens/pages/PDanalysisPage.dart';
