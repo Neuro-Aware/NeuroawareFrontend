@@ -34,6 +34,7 @@ class RegistrationController {
           'confirmPassword': confirmPasswordController.text.trim(),
         }),
       );
+      print(response.body);
 
       return [response.statusCode, response.body];
     } catch (e) {
