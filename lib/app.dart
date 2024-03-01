@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:neuroaware/screens/auth/loginpage.dart';
-import 'package:neuroaware/screens/pages/MainPage.dart';
 import 'package:neuroaware/screens/auth/start_page.dart';
+import 'package:neuroaware/screens/pages/MainPage.dart';
+
+import 'screens/auth/signuppage.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -24,7 +26,10 @@ class _AppState extends State<App> {
       // initialRoute: '/',
       // onGenerateRoute: RouteGenerator.generateRoute,
       routes: {
-        '/login': (context) =>  Login(),
+        '/login': (context) => Login(),
+        '/register': (context) => SignUp(),
+        '/main': (context) => MainPage(),
+        '/start': (context) => StartScreen(),
       },
     );
   }
