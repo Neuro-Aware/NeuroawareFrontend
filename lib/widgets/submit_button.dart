@@ -1,15 +1,18 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 
 class SubmitButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String title;
-  final bool loading;
-  const SubmitButton(
-      {Key? key,
-      required this.onPressed,
-      required this.title,
-      this.loading = false})
-      : super(key: key);
+  bool loading;
+
+  SubmitButton({
+    Key? key,
+    required this.onPressed,
+    required this.title,
+    this.loading = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +28,8 @@ class SubmitButton extends StatelessWidget {
               backgroundColor: Color.fromRGBO(40, 65, 98, 1)),
           child: loading
               ? CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white))
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                )
               : Text(
                   title,
                   style: TextStyle(color: Colors.white, fontSize: 15),
