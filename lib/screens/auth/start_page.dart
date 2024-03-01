@@ -28,7 +28,7 @@ class StartScreen extends StatelessWidget {
                         fontSize: 35,
                         fontWeight: FontWeight.w600,
                         color: Color.fromRGBO(40, 65, 98, 1))),
-                SizedBox(height: 70),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
                 Image.asset(
                   'assets/images/logo.png',
                   scale: 1.8,
