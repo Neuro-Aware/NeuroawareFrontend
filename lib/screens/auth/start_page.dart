@@ -1,8 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:neuroaware/screens/auth/loginpage.dart';
-import 'package:neuroaware/screens/auth/signuppage.dart';
 
 class StartScreen extends StatelessWidget {
   const StartScreen({super.key});
@@ -36,8 +34,7 @@ class StartScreen extends StatelessWidget {
                 SizedBox(height: 80),
                 OutlinedButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => SignUp()));
+                      Navigator.pushNamed(context, '/register');
                     },
                     style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -52,8 +49,7 @@ class StartScreen extends StatelessWidget {
                 SizedBox(height: 20),
                 OutlinedButton(
                     onPressed: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Login()));
+                      Navigator.pushNamed(context, '/login');
                     },
                     style: OutlinedButton.styleFrom(
                         shape: RoundedRectangleBorder(
