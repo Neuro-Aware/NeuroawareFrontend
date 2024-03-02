@@ -5,7 +5,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:neuroaware/controller/login.controller.dart';
 import 'package:neuroaware/screens/auth/signuppage.dart';
-import 'package:neuroaware/screens/pages/MainPage.dart';
 import 'package:neuroaware/utils/SessionId.dart';
 import 'package:neuroaware/widgets/input_fields.dart';
 import 'package:neuroaware/widgets/submit_button.dart';
@@ -98,7 +97,11 @@ class _LoginState extends State<Login> {
                     ),
                   ),
                   SizedBox(height: 15),
-                  SubmitButton(onPressed: () => handleLogin(), title: 'Login'),
+                  SubmitButton(
+                    onPressed: () => handleLogin(),
+                    title: 'Login',
+                    loading: loading,
+                  ),
                   SizedBox(height: 0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -131,24 +134,12 @@ class _LoginState extends State<Login> {
             ),
           ),
         ),
-        if (loading)
-          Container(
-            color: Colors.black.withOpacity(0.5),
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
       ]),
     );
   }
 
   void handleSubmission() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: ((context) => MainPage()),
-      ),
-    );
+    Navigator.pushNamed(context, '/main');
   }
 
   // handle registration method
@@ -164,8 +155,7 @@ class _LoginState extends State<Login> {
 
     if (response.statusCode == 200) {
       SessionId.setSessionId(response.headers['set-cookie']!);
-      print(response.headers['set-cookie']);
-      print(await SessionId.getSessionId());
+
       handleSubmission();
     }
     if (response.statusCode == 400 ||

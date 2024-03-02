@@ -30,10 +30,8 @@ class LoginController {
         }),
       );
 
-      print(response);
       return response;
     } catch (e) {
-      print(e);
       return http.Response('Error', 500);
     }
   }
