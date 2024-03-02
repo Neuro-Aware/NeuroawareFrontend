@@ -139,13 +139,6 @@ class _SignUpState extends State<SignUp> {
               ),
             ),
           ),
-          // if (loading)
-          //   Container(
-          //     color: Colors.black.withOpacity(0.5),
-          //     child: Center(
-          //       child: CircularProgressIndicator(),
-          //     ),
-          //   ),
         ],
       ),
     );

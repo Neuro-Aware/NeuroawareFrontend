@@ -27,8 +27,14 @@ class SubmitButton extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10)),
               backgroundColor: Color.fromRGBO(40, 65, 98, 1)),
           child: loading
-              ? CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+              ? SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    strokeCap: StrokeCap.round,
+                    strokeWidth: 3.0,
+                  ),
                 )
               : Text(
                   title,
