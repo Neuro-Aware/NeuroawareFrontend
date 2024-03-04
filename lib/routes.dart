@@ -1,22 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:neuroaware/screens/pages/MainPage.dart';
-import 'package:neuroaware/screens/auth/start_page.dart';
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
-    final login = settings.arguments;
-    switch (settings.name) {
-      case '/':
-        {
-          if (login == null) {
-            return MaterialPageRoute(builder: (_) => StartScreen());
-          } else {
-            return MaterialPageRoute(builder: (_) => const MainPage());
-          }
-        }
+  static String generateRoute(bool loggedIn) {
+    // print("generating route");
 
-      default:
-        return _errorRoute();
+    if (loggedIn) {
+      // print("going to main");
+      return '/main';
+    } else {
+      return '/start';
     }
   }
 

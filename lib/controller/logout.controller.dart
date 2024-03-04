@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
-import 'package:neuroaware/utils/SessionId.dart';
 
 import '../utils/API_endpoints.dart';
+import '../utils/SessionGetter.dart';
 
 class LogoutController {
   Future<http.Response> logoutUser() async {

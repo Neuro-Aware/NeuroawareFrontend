@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:neuroaware/app.dart';
 
-void main() {
+import 'utils/SessionGetter.dart';
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const App());
+  await SessionId.cacheSessionId();
+  bool loggedIn = await SessionId.hasSessionId();
+  runApp(App(loggedIn: loggedIn));
 }

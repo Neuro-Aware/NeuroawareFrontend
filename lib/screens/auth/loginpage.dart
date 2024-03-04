@@ -5,9 +5,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:neuroaware/controller/login.controller.dart';
 import 'package:neuroaware/screens/auth/signuppage.dart';
-import 'package:neuroaware/utils/SessionId.dart';
 import 'package:neuroaware/widgets/input_fields.dart';
 import 'package:neuroaware/widgets/submit_button.dart';
+
+import '../../utils/SessionGetter.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -155,7 +156,6 @@ class _LoginState extends State<Login> {
 
     if (response.statusCode == 200) {
       SessionId.setSessionId(response.headers['set-cookie']!);
-
       handleSubmission();
     }
     if (response.statusCode == 400 ||
