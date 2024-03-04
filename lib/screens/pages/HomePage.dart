@@ -40,7 +40,7 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
         preferredSize: Size.fromHeight(50),
         child: TopBar(
           title: 'Home',
-          greeting_view: true,
+          greetingView: true,
           greeting: 'Good Morning',
           name: 'John Doe',
         ),

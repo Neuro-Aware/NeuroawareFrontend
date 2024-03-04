@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 class TopBar extends StatelessWidget {
   TopBar(
       {Key? key,
-      required this.greeting,
-      required this.name,
-      required this.greeting_view,
+      required this.greetingView,
+      this.greeting = '',
+      this.name = '',
       required this.title})
       : super(key: key);
 
   String title;
-  bool greeting_view = false;
+  bool greetingView = false;
   String greeting;
   String name;
 
@@ -29,7 +29,7 @@ class TopBar extends StatelessWidget {
                   fontSize: 23,
                   fontWeight: FontWeight.w500,
                 )),
-            greeting_view
+            greetingView
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
