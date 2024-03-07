@@ -6,13 +6,19 @@ class SubmitButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String title;
   bool loading;
+  Color color;
+  double radius;
+  double textsize;
 
-  SubmitButton({
-    Key? key,
-    required this.onPressed,
-    required this.title,
-    this.loading = false,
-  }) : super(key: key);
+  SubmitButton(
+      {Key? key,
+      required this.onPressed,
+      required this.title,
+      this.loading = false,
+      this.color = const Color.fromRGBO(40, 65, 98, 1),
+      this.radius = 10,
+      this.textsize = 15})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +30,8 @@ class SubmitButton extends StatelessWidget {
           onPressed: onPressed,
           style: OutlinedButton.styleFrom(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-              backgroundColor: Color.fromRGBO(40, 65, 98, 1)),
+                  borderRadius: BorderRadius.circular(radius)),
+              backgroundColor: color),
           child: loading
               ? SizedBox(
                   height: 25,
@@ -38,7 +44,7 @@ class SubmitButton extends StatelessWidget {
                 )
               : Text(
                   title,
-                  style: TextStyle(color: Colors.white, fontSize: 15),
+                  style: TextStyle(color: Colors.white, fontSize: textsize),
                 )),
     );
   }
