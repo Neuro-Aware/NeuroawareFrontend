@@ -216,12 +216,12 @@ class _MyHomeState extends State<MyHome> with SingleTickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.access_alarm,
+                  Icons.fitness_center,
                   size: 50,
                   color: Colors.white,
                 ),
                 Text(
-                  'Cardio',
+                  'Fitness Videos',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
