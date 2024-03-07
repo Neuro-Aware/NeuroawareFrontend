@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:neuroaware/screens/auth/loginpage.dart';
 import 'package:neuroaware/screens/auth/start_page.dart';
+import 'package:neuroaware/screens/pages/AnalyticsPage.dart';
+import 'package:neuroaware/screens/pages/EditProfilePage.dart';
+import 'package:neuroaware/screens/pages/HomePage.dart';
 import 'package:neuroaware/screens/pages/MainPage.dart';
+import 'package:neuroaware/screens/pages/PDanalysisPage.dart';
+import 'package:neuroaware/screens/pages/ProfilePage.dart';
 
 import 'routes.dart';
 import 'screens/auth/signuppage.dart';
@@ -36,6 +41,11 @@ class _AppState extends State<App> {
         '/register': (context) => SignUp(),
         '/main': (context) => MainPage(),
         '/start': (context) => StartScreen(),
+        '/home': (context) => MyHome(),
+        '/PDanalysis': (context) => PDanalysisPage(),
+        '/analytics': (context) => AnalyticsPage(),
+        '/profile': (context) => ProfilePage(),
+        '/editProfile': (context) => EditProfile()
       },
     );
   }
