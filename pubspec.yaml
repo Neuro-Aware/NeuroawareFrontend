@@ -39,6 +39,9 @@ dependencies:
   fl_chart: ^0.66.1
   http: ^0.13.6
   flutter_secure_storage: ^9.0.0
+  image_picker: ^0.8.4+4
+  # google_maps_flutter: ^2.5.3
+  
   
   
 
