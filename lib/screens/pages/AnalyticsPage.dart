@@ -514,6 +514,7 @@ class _AnalyticsPageState extends State<AnalyticsPage>
                 ),
                 Container(
                   height: 145,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(15),
