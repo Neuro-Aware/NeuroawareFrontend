@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -8,11 +9,11 @@ import 'package:neuroaware/utils/SessionGetter.dart';
 
 class EditProfileController {
   TextEditingController nameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneControlller = TextEditingController();
 
   void dispose() {
     nameController.dispose();
-    emailController.dispose();
+    phoneControlller.dispose();
   }
 
   Future<http.Response> editProfileDetails() async {
@@ -26,10 +27,10 @@ class EditProfileController {
           // set session cookie here
           'Cookie': SessionId.cachedSessionId,
         },
-        body: {
+        body: jsonEncode({
           'name': nameController.text.trim(),
-          'email': emailController.text.trim(),
-        },
+          'phoneNo': phoneControlller.text.trim(),
+        }),
       );
 
       return response;
@@ -38,23 +39,33 @@ class EditProfileController {
     }
   }
 
-  Future<http.Response> editProfileImage(File? image) async {
+  Future<http.Response> editProfileImage(File image) async {
     var url =
         '${ApiEndPoints.baseUrl}/${ApiEndPoints.userEndpoints.updateImage}';
+    var headers = {
+      'Cookie': SessionId.cachedSessionId,
+    };
+
     try {
       var request = http.MultipartRequest('POST', Uri.parse(url));
 
-      // request.cookies.addAll([
-      //   http.Cookie('name', nameController.text.trim()),
-      //   http.Cookie('email', emailController.text.trim())
-      // ]);
-      request.files.add(http.MultipartFile.fromBytes(
-          'profileImage', image!.readAsBytesSync(),
-          filename: image!.path.split("/").last));
+      // Check if the image file exists
+      if (!image.existsSync()) {
+        throw Exception('Image file does not exist');
+      }
 
-      http.StreamedResponse response = await request.send();
-      return http.Response.fromStream(response);
+      var multipartFile =
+          await http.MultipartFile.fromPath('profileImage', image.path);
+
+      request.files.add(multipartFile);
+      request.headers.addAll(headers);
+
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      return response;
     } catch (e) {
+      print('Error sending profile image: $e');
       return http.Response('Error', 500);
     }
   }
