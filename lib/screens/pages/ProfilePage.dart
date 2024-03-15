@@ -3,9 +3,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:neuroaware/utils/API_endpoints.dart';
+import 'package:neuroaware/controller/getprofileDetails.dart';
+import 'package:shimmer/shimmer.dart';
 
+import '../../components/shimmerLoading.dart';
 import '../../components/topBar.dart';
 import '../../controller/logout.controller.dart';
 import '../../utils/SessionGetter.dart';
@@ -19,15 +20,29 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   LogoutController _logoutController = LogoutController();
+  GetProfileDetails _userDetails = GetProfileDetails();
   bool loading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(50),
-        child: TopBar(greetingView: false, title: 'UserName'),
-      ),
+          preferredSize: Size.fromHeight(50),
+          child: FutureBuilder(
+            future: getMeDetails(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return TopBar(
+                  title: snapshot.data['name'],
+                  greetingView: false,
+                );
+              } else {
+                return TopBar(
+                  loading: true,
+                );
+              }
+            },
+          )),
       body: Stack(
         children: [
           Padding(
@@ -38,51 +53,82 @@ class _ProfilePageState extends State<ProfilePage> {
                   Column(
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
-                      // FutureBuilder(
-                      //   future: getImage(),
-                      //   builder:
-                      //       (BuildContext context, AsyncSnapshot snapshot) {
-                      //     if (snapshot.connectionState ==
-                      //         ConnectionState.done) {
-                      //       return snapshot.data;
-                      //     }
-                      //     if (snapshot.connectionState ==
-                      //         ConnectionState.waiting) {
-                      //       return CircularProgressIndicator();
-                      //     }
-                      //     return CircularProgressIndicator();
-                      //   },
-                      // ),
-                      ClipOval(
-                        child: Image.asset(
-                          'assets/images/logo.png',
-                          width: 100,
-                          height: 100,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      FutureBuilder(
+                          future: getMeImage(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              return ClipOval(
+                                child: Image.memory(
+                                  snapshot.data,
+                                  width:
+                                      MediaQuery.of(context).size.height * 0.15,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.15,
+                                  fit: BoxFit.cover,
+                                ),
+                              );
+                            } else {
+                              return ShimmerLoading(
+                                shape: BoxShape.circle,
+                                width: MediaQuery.of(context).size.height * 0.15,
+                                height: MediaQuery.of(context).size.height * 0.15,
+                              );
+                            }
+                          }),
                       SizedBox(height: 4),
-                      Text(
-                        'John Doe',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        'email',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      Text(
-                        '+91 phone no.',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                      FutureBuilder(
+                          future: getMeDetails(),
+                          builder:
+                              (BuildContext context, AsyncSnapshot snapshot) {
+                            if (snapshot.hasData) {
+                              return Column(
+                                children: [
+                                  Text(
+                                    snapshot.data['name'],
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    snapshot.data['email'],
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                  Text(
+                                    '+91 ${snapshot.data['phoneNo']}',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              );
+                            } else {
+                              return Column(
+                                children: [
+                                  // create a gradient animated shimmer effect for loading
+                                  ShimmerLoading(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.4,
+                                  ),
+                                  SizedBox(height: 4),
+                                  ShimmerLoading(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.6,
+                                  ),
+                                  SizedBox(height: 4),
+                                  ShimmerLoading(
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.5,
+                                  ),
+                                ],
+                              );
+                            }
+                          }),
                     ],
                   ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -140,20 +186,20 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Future<Image> getImage() async {
-    var url = '${ApiEndPoints.baseUrl}/user/imageqGet';
-    var response = await http.get(
-      Uri.parse(url),
-      headers: {
-        'Content-Type': 'image/jpeg',
-        'Cookies': await SessionId.getSessionId(),
-      },
-    );
-    if (response.statusCode == 200) {
-      return Image.memory(response.bodyBytes);
-    } else {
-      return Image.asset('assets/images/logo.png');
+  Future<dynamic> getMeDetails() async {
+    var response = await _userDetails.getProfileDetails();
+
+    var data = jsonDecode(response.body);
+    if (data['message'] == 'Profile success') {
+      return data['details'];
     }
+  }
+
+  Future<dynamic> getMeImage() async {
+    var response = await _userDetails.getProfileImage();
+
+    var data = response.bodyBytes;
+    return data;
   }
 
   void handleAction() {
