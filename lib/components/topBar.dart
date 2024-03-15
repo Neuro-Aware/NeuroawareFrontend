@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:neuroaware/components/shimmerLoading.dart';
 
 class TopBar extends StatelessWidget {
   TopBar(
       {Key? key,
-      required this.greetingView,
+      this.greetingView = false,
       this.greeting = '',
       this.name = '',
-      required this.title})
+      this.title = '',
+      this.loading = false})
       : super(key: key);
 
   String title;
   bool greetingView = false;
   String greeting;
   String name;
+  bool loading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +27,17 @@ class TopBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(title,
-                style: TextStyle(
-                  fontSize: 23,
-                  fontWeight: FontWeight.w500,
-                )),
+            loading
+                ? // create a gradient animated shimmer effect for loading
+                ShimmerLoading(
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    height: MediaQuery.of(context).size.height * 0.025,
+                  )
+                : Text(title,
+                    style: TextStyle(
+                      fontSize: 23,
+                      fontWeight: FontWeight.w500,
+                    )),
             greetingView
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
