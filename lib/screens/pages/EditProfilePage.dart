@@ -75,6 +75,7 @@ class _EditProfileState extends State<EditProfile> {
                 TextInputType.name,
                 false,
                 Colors.black,
+                profileController.nameController,
               ),
               SizedBox(
                 height: 15,
@@ -85,12 +86,13 @@ class _EditProfileState extends State<EditProfile> {
                 TextInputType.phone,
                 false,
                 Colors.black,
+                profileController.phoneControlller,
               ),
               SizedBox(
                 height: 15,
               ),
               SubmitButton(
-                onPressed: handleEditProfile,
+                onPressed: handleEditProfileDetails,
                 title: 'Edit Profile',
                 loading: loading,
                 color: Colors.black,
@@ -104,45 +106,47 @@ class _EditProfileState extends State<EditProfile> {
     );
   }
 
-  void handleSubmission() {
+  void handleSubmissionDetails() {
     Navigator.pushNamed(context, '/profile');
   }
 
+  void handleSubmissionImage() {
+    Navigator.pushNamed(context, '/editProfile');
+  }
+
   // handle registration method
-  void handleEditProfile() async {
+  void handleEditProfileDetails() async {
     setState(() {
       loading = true; // show loading indicator
     });
     var responseDetails = await profileController.editProfileDetails();
-    var responseImage = await profileController.editProfileImage(_image);
+
     setState(() {
       loading = false; // hide loading indicator
     });
     var messageDetail = jsonDecode(responseDetails.body);
-    var messageImage = jsonDecode(responseImage.body);
 
-    if (responseDetails.statusCode == 201 && responseImage.statusCode == 201) {
-      handleSubmission();
-    }
-    if (responseDetails.statusCode == 400 ||
-        responseDetails.statusCode == 401 ||
-        responseDetails.statusCode == 404 && responseImage.statusCode == 201) {
+    if (responseDetails.statusCode == 201) {
+      handleSubmissionDetails();
+    } else {
       errorDialog(messageDetail['message']);
     }
-    if (responseImage.statusCode == 400 ||
-        responseImage.statusCode == 401 ||
-        responseImage.statusCode == 404 && responseDetails.statusCode == 201) {
-      errorDialog(messageImage['message']);
-    }
-    if (responseDetails.statusCode == 400 ||
-        responseDetails.statusCode == 401 ||
-        responseDetails.statusCode == 404 && responseImage.statusCode == 400 ||
-        responseImage.statusCode == 401 ||
-        responseImage.statusCode == 404) {
-      errorDialog(messageDetail['message'] + messageImage['message']);
-    }
-    if (responseDetails.statusCode == 500 && responseImage.statusCode == 500) {
+    if (responseDetails.statusCode == 500) {
       errorDialog('Internal Server Error');
+    }
+  }
+
+  void handleEditProfileImage() async {
+    var responseImage = await profileController.editProfileImage(_image);
+    var messageDetails = jsonDecode(responseImage.body);
+
+    if (responseImage.statusCode == 201) {
+      handleSubmissionImage();
+    } else {
+      errorDialog(messageDetails['message']);
+    }
+    if (responseImage.statusCode == 500) {
+      errorDialog('Internal Server Issue');
     }
   }
 
@@ -167,12 +171,13 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   TextField textFields(String label, IconData icon, TextInputType type,
-      bool obsecure, Color color) {
+      bool obsecure, Color color, TextEditingController controller) {
     return TextField(
       style: TextStyle(
         color: color,
       ),
       keyboardType: type,
+      controller: controller,
       obscureText: obsecure,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.fromLTRB(20, 17, 20, 17),
@@ -202,6 +207,40 @@ class _EditProfileState extends State<EditProfile> {
         print('No image selected.');
       }
     });
+
+    if (_image.existsSync()) {
+      updateImageDialoge();
+    }
+  }
+
+  Future updateImageDialoge() async {
+    return await showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Update Image'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                GestureDetector(
+                  child: Text('Update'),
+                  onTap: () {
+                    handleEditProfileImage();
+                  },
+                ),
+                Padding(padding: EdgeInsets.all(8.0)),
+                GestureDetector(
+                  child: Text('Cancel'),
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Row topBar(BuildContext context) {
