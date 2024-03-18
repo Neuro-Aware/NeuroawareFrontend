@@ -3,12 +3,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:neuroaware/controller/getprofileDetails.controller.dart';
 import 'package:neuroaware/controller/login.controller.dart';
 import 'package:neuroaware/screens/auth/signuppage.dart';
 import 'package:neuroaware/widgets/input_fields.dart';
 import 'package:neuroaware/widgets/submit_button.dart';
 
-import '../../utils/SessionGetter.dart';
+import '../../utils/localStorage.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -19,6 +20,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   LoginController loginController = LoginController();
+  GetProfileDetails _userDetails = GetProfileDetails();
+
   bool visible = true;
   bool loading = false;
 
@@ -139,8 +142,30 @@ class _LoginState extends State<Login> {
     );
   }
 
-  void handleSubmission() {
+  void handleSubmission() async {
     Navigator.pushNamed(context, '/main');
+    var resp = await getMeDetails();
+    // save resp to local storage in format of dictionary or json
+    var name = resp['name'];
+    var email = resp['email'];
+    var username = resp['username'];
+    var phoneNo = resp['phoneNo'].toString();
+    await LocalStorage.write('name', name);
+    await LocalStorage.write('email', email);
+    await LocalStorage.write('username', username);
+    await LocalStorage.write('phoneNo', phoneNo);
+    print(await LocalStorage.readAll());
+  }
+
+  Future<dynamic> getMeDetails() async {
+    var response = await _userDetails.getProfileDetails();
+
+    var data = jsonDecode(response.body);
+
+    if (data['message'] == 'Profile success') {
+      return data['details'];
+    }
+    throw Exception('Failed to load profile details');
   }
 
   // handle registration method
@@ -149,21 +174,26 @@ class _LoginState extends State<Login> {
       loading = true; // show loading indicator
     });
     var response = await loginController.loginUser();
+
     setState(() {
       loading = false; // hide loading indicator
     });
-    var message = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      SessionId.setSessionId(response.headers['set-cookie']!);
+      String value = response.headers['set-cookie']!;
+      if (value.endsWith("; Path=/; HttpOnly")) {
+        value = value.substring(0, value.length - 18);
+      }
+      await LocalStorage.write('sessionId', value);
+      // print('Session ID: $value');
+      // print(await LocalStorage.read('sessionId'));
+
       handleSubmission();
-    }
-    if (response.statusCode == 400 ||
-        response.statusCode == 401 ||
+    } else if (response.statusCode == 400 ||
+        response.statusCode == 403 ||
         response.statusCode == 404) {
-      errorDialog(message['message']);
-    }
-    if (response.statusCode == 500) {
+      errorDialog(jsonDecode(response.body)['message']);
+    } else {
       errorDialog('Internal Server Error');
     }
   }
