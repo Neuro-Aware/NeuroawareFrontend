@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:neuroaware/utils/API_endpoints.dart';
-import 'package:neuroaware/utils/SessionGetter.dart';
+import 'package:neuroaware/utils/localStorage.dart';
 
 class EditProfileController {
   TextEditingController nameController = TextEditingController();
@@ -25,7 +25,7 @@ class EditProfileController {
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
           // set session cookie here
-          'Cookie': SessionId.cachedSessionId,
+          'Cookie': LocalStorage.data['sessionId'].toString(),
         },
         body: jsonEncode({
           'name': nameController.text.trim(),
@@ -43,7 +43,7 @@ class EditProfileController {
     var url =
         '${ApiEndPoints.baseUrl}/${ApiEndPoints.userEndpoints.updateImage}';
     var headers = {
-      'Cookie': SessionId.cachedSessionId,
+      'Cookie': LocalStorage.data['sessionId'].toString(),
     };
 
     try {
