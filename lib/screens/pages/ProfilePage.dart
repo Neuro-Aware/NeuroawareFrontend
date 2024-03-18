@@ -1,15 +1,12 @@
-// ignore_for_file: prefer_const_constructors
-
-import 'dart:convert';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:neuroaware/controller/getprofileDetails.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:neuroaware/controller/getprofileDetails.controller.dart';
 
 import '../../components/shimmerLoading.dart';
 import '../../components/topBar.dart';
 import '../../controller/logout.controller.dart';
-import '../../utils/SessionGetter.dart';
+import '../../utils/localStorage.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -21,6 +18,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   LogoutController _logoutController = LogoutController();
   GetProfileDetails _userDetails = GetProfileDetails();
+  LocalStorage localStorage = LocalStorage();
   bool loading = false;
 
   @override
@@ -29,11 +27,11 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(50),
           child: FutureBuilder(
-            future: getMeDetails(),
+            future: LocalStorage.readAll(),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return TopBar(
-                  title: snapshot.data['name'],
+                  title: snapshot.data['username'],
                   greetingView: false,
                 );
               } else {
@@ -71,14 +69,16 @@ class _ProfilePageState extends State<ProfilePage> {
                             } else {
                               return ShimmerLoading(
                                 shape: BoxShape.circle,
-                                width: MediaQuery.of(context).size.height * 0.15,
-                                height: MediaQuery.of(context).size.height * 0.15,
+                                width:
+                                    MediaQuery.of(context).size.height * 0.15,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.15,
                               );
                             }
                           }),
                       SizedBox(height: 4),
                       FutureBuilder(
-                          future: getMeDetails(),
+                          future: LocalStorage.readAll(),
                           builder:
                               (BuildContext context, AsyncSnapshot snapshot) {
                             if (snapshot.hasData) {
@@ -136,6 +136,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     onPressed: () {
                       Navigator.pushNamed(context, '/editProfile');
                     },
+                    // ignore: sort_child_properties_last
                     child: Text(
                       'Edit Profile',
                       style: TextStyle(
@@ -176,23 +177,16 @@ class _ProfilePageState extends State<ProfilePage> {
             color: Colors.white,
             strokeCap: StrokeCap.round,
           ),
-          Text('Redirecting',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-              ))
+          Text(
+            'Logging out...',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          )
         ],
       ),
     );
-  }
-
-  Future<dynamic> getMeDetails() async {
-    var response = await _userDetails.getProfileDetails();
-
-    var data = jsonDecode(response.body);
-    if (data['message'] == 'Profile success') {
-      return data['details'];
-    }
   }
 
   Future<dynamic> getMeImage() async {
@@ -215,10 +209,9 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       loading = false;
     });
-    var message = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      SessionId.deleteSessionId();
+      LocalStorage.clear();
       handleAction();
     }
     if (response.statusCode == 401) {
