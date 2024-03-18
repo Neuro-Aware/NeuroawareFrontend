@@ -8,13 +8,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:neuroaware/app.dart';
-import 'package:neuroaware/utils/SessionGetter.dart';
+import 'package:neuroaware/utils/localStorage.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await SessionId.cacheSessionId();
-    bool loggedIn = await SessionId.hasSessionId();
+    await LocalStorage.cacheData();
+    bool loggedIn = await LocalStorage.hasSessionId();
     await tester.pumpWidget(App(
       loggedIn: loggedIn,
     ));
