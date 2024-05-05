@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:neuroaware/routes.dart';
 import 'package:neuroaware/screens/auth/loginpage.dart';
 import 'package:neuroaware/screens/auth/start_page.dart';
 import 'package:neuroaware/screens/pages/AnalyticsPage.dart';
@@ -8,8 +9,8 @@ import 'package:neuroaware/screens/pages/MainPage.dart';
 import 'package:neuroaware/screens/pages/PDanalysisPage.dart';
 import 'package:neuroaware/screens/pages/ProfilePage.dart';
 
-import 'routes.dart';
 import 'screens/auth/signuppage.dart';
+import 'test.dart';
 
 class App extends StatefulWidget {
   const App({
@@ -34,9 +35,11 @@ class _AppState extends State<App> {
       ),
       debugShowCheckedModeBanner: false,
       // home: login ? MainPage() : StartScreen(),
+      // initialRoute: '/test',
       initialRoute: RouteGenerator.generateRoute(widget.loggedIn),
       // onGenerateRoute: RouteGenerator.generateRoute,
       routes: {
+        '/test': (context) => MyTest(),
         '/login': (context) => Login(),
         '/register': (context) => SignUp(),
         '/main': (context) => MainPage(),
